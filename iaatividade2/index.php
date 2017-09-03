@@ -1,3 +1,6 @@
+<?php
+	require( 'config.ini.php' );
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,100 +16,102 @@
         </br>
         <h1>Sistema Especialista de Recomendação de Vinho</h1>
         </br>
-        <form>
-        <div class="form-group" id="div_prato_principal">
-            <label for="prato_principal">Prato Principal</label>
-            <select class="form-control" id="prato_principal">
-            <option value="" selected="selected">Selecione</option>
-            <option value="1">Carne</option>
-            <option value="2">Peixe</option>
-            <option value="3">Ave</option>
-            <option value="4">Vegetariano</option>
-            </select>
-        </div>
-        <div class="form-group" id="div_tem_vitela">
-            <label for="tem_vitela">Tem Vitela?</label>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="tem_vitela" id="tem_vitela_sim" value="sim">
-                    Sim
-                </label>
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="tem_vitela" id="tem_vitela_nao" value="nao">
-                    Não
-                </label>
+        <form action="sugestao_vinho.php" method="post">
+            <div class="form-group" id="div_prato_principal">
+                <label for="prato_principal">Prato Principal</label>
+                    <select class="form-control" name="prato_principal" id="prato_principal" required>
+                    <option value="" selected="selected">Selecione</option>
+                    <option value="<?php echo PRATO_PRINCIPAL_CARNE; ?>">Carne</option>
+                    <option value="<?php echo PRATO_PRINCIPAL_PEIXE; ?>">Peixe</option>
+                    <option value="<?php echo PRATO_PRINCIPAL_AVE; ?>">Ave</option>
+                    <option value="<?php echo PRATO_PRINCIPAL_VEGETARIANO; ?>">Vegetariano</option>
+                </select>
             </div>
-        </div>        
-
-        <div class="form-group" id="div_tem_peru">
-            <label for="tem_peru">Tem Peru?</label>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="tem_peru" id="tem_peru_sim" value="sim">
-                    Sim
-                </label>
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="tem_peru" id="tem_peru_nao" value="nao">
-                    Não
-                </label>
+            <div class="form-group" id="div_tem_vitela">
+                <label for="tem_vitela">Tem Vitela?</label>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="tem_vitela" id="tem_vitela_sim" value="<?php echo TEM_VITELA_SIM;?>">
+                        Sim
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="tem_vitela" id="tem_vitela_nao" value="<?php echo TEM_VITELA_NAO;?>">
+                        Não
+                    </label>
+                </div>
+            </div>        
+            <div class="form-group" id="div_tem_peru">
+                <label for="tem_peru">Tem Peru?</label>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="tem_peru" id="tem_peru_sim" value="<?php echo TEM_MOLHO_SIM;?>">
+                        Sim
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="tem_peru" id="tem_peru_nao" value="<?php echo TEM_MOLHO_NAO;?>">
+                        Não
+                    </label>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group" id="div_tem_molho">
-            <label for="tem_vitela">Tem Molho?</label>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="tem_molho" id="tem_molho_sim" value="sim">
-                    Sim
-                </label>
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="tem_molho" id="tem_molho_nao" value="nao">
-                    Não
-                </label>
+            <div class="form-group" id="div_tem_molho">
+                <label for="tem_vitela">Tem Molho?</label>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="tem_molho" id="tem_molho_sim" value="SIM" required>
+                        Sim
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="tem_molho" id="tem_molho_nao" value="NAO" required>
+                        Não
+                    </label>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group" id="div_molho">
-            <label for="prato_principal">Molho</label>
-            <select class="form-control" id="molho">
-            <option value="" selected="selected">Selecione</option>
-            <option value="1">Temperado</option>
-            <option value="2">Doce</option>
-            <option value="3">Tomate</option>
-            </select>
-        </div>
-    
-        <div class="form-group" id="div_sabor">
-            <label for="prato_principal">Sabor</label>
-            <select class="form-control" id="molho">
-            <option value="" selected="selected">Selecione</option>
-            <option value="1">Delicado</option>
-            <option value="2">Médio</option>
-            <option value="3">Forte</option>
-            </select>
-        </div>
-
-        <div class="form-group" id="docura_preferida">
-            <label for="prato_principal">Docura Preferida</label>
-            <select class="form-control" id="molho">
-            <option value="" selected="selected">Selecione</option>
-            <option value="1">Doce</option>
-            <option value="2">Suave</option>
-            <option value="3">Seco</option>
-            </select>
-        </div>
-
-        <div class="form-group" id="cor_preferida">
-            <label for="prato_principal">Cor Preferida</label>
-            <select class="form-control" id="molho">
-            <option value="" selected="selected">Selecione</option>
-            <option value="1">Tinto</option>
-            <option value="2">Branco</option>
-            </select>
-        </div>
-    <button type="submit" class="btn btn-primary">Sugerir</button>
-    <button id="reset" type="reset" class="btn btn-danger" value="Reset">Reset</button>
-    </form>
+            <div class="form-group" id="div_molho">
+                <label for="molho">Molho</label>
+                <select class="form-control" id="molho" name="molho">
+                    <option value="" selected="selected">Selecione</option>
+                    <option value="1">Temperado</option>
+                    <option value="2">Doce</option>
+                    <option value="3">Tomate</option>
+                </select>
+                <label for="nivel_molho">Nível do Molho</label>
+                <input type="range" name="nivel_molho" min="0" max="1" step="0.01">
+            </div>   
+            <div class="form-group" id="div_sabor">
+                <label for="sabor">Sabor</label>
+                <select class="form-control" id="sabor" name="sabor" required>
+                <option value="" selected="selected">Selecione</option>
+                <option value="1">Delicado</option>
+                <option value="2">Médio</option>
+                <option value="3">Forte</option>
+                </select>
+                <label for="nivel_sabor">Nível do Sabor</label>
+                <input type="range" name="nivel_sabor" min="0" max="1" step="0.01">
+            </div>
+            <div class="form-group" id="div_docura_preferida">
+                <label for="docura_preferida">Docura Preferida</label>
+                <select class="form-control" id="docura_preferida" name="docura_preferida" required>
+                    <option value="" selected="selected">Selecione</option>
+                    <option value="1">Doce</option>
+                    <option value="2">Suave</option>
+                    <option value="3">Seco</option>
+                </select>
+                <label for="nivel_docura_preferida">Nível da Doçura Preferida</label>
+                <input type="range" name="nivel_docura_preferida" min="0" max="1" step="0.01">
+            </div>
+            <div class="form-group" id="div_cor_preferida">
+                <label for="cor_preferida">Cor Preferida</label>
+                <select class="form-control" id="cor_preferida" name="cor_preferida" required>
+                    <option value="" selected="selected">Selecione</option>
+                    <option value="1">Tinto</option>
+                    <option value="2">Branco</option>
+                </select>
+                <label for="nivel_cor_preferida">Nível da Cor Preferida</label>
+                <input type="range" name="nivel_cor_preferida" min="0" max="1" step="0.01">
+            </div>
+            <button type="submit" class="btn btn-primary">Sugerir</button>
+            <button id="reset" type="reset" class="btn btn-danger" value="Reset">Reset</button>
+        </form>
   </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

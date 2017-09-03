@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    
+
     PRATO_PRINCIPAL_CARNE       = 1;
     PRATO_PRINCIPAL_PEIXE       = 2;
     PRATO_PRINCIPAL_AVE         = 3;
@@ -24,6 +24,9 @@ $(document).ready(function(){
             $( "#div_tem_vitela" ).hide();
             $( "#div_tem_peru" ).hide();
             $('#tem_vitela_nao').attr('checked', 'checked');
+            $('#tem_peru_nao').attr('checked', 'checked');
+        } else if (prato_principal == PRATO_PRINCIPAL_CARNE ) {
+            $( "#div_tem_peru" ).hide();
             $('#tem_peru_nao').attr('checked', 'checked');
         } else if (prato_principal == PRATO_PRINCIPAL_AVE) {
             $( "#div_tem_vitela" ).hide();
