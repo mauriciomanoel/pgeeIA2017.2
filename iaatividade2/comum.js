@@ -1,10 +1,5 @@
 $(document).ready(function(){
 
-    PRATO_PRINCIPAL_CARNE       = 1;
-    PRATO_PRINCIPAL_PEIXE       = 2;
-    PRATO_PRINCIPAL_AVE         = 3;
-    PRATO_PRINCIPAL_VETETARIANO = 4;
-
     $("#reset").click(function(){
         $( "#div_molho" ).show();
         $( "#div_tem_vitela" ).show();
@@ -20,7 +15,7 @@ $(document).ready(function(){
         $('#tem_vitela_nao').removeAttr('checked');
         $('#tem_peru_nao').removeAttr('checked');
         
-        if (prato_principal == PRATO_PRINCIPAL_VETETARIANO || prato_principal == PRATO_PRINCIPAL_PEIXE) {
+        if (prato_principal == PRATO_PRINCIPAL_VEGETARIANO || prato_principal == PRATO_PRINCIPAL_PEIXE) {
             $( "#div_tem_vitela" ).hide();
             $( "#div_tem_peru" ).hide();
             $('#tem_vitela_nao').attr('checked', 'checked');
