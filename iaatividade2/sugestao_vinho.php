@@ -16,6 +16,7 @@
 
     echo "<pre>"; var_dump($_POST);
 
+    // Calculo de Geração da Melhor Docura
     function melhorDocura($tem_molho, $molho) {
         $dados = array("melhor_docura" => "", "fator_crenca" => 0);
         $retorno = array();
@@ -41,6 +42,7 @@
         return $retorno;
     }
 
+    // Calculo de Geração da Melhor Cor
     function melhorCor($prato_principal, $tem_vitela, $tem_peru, $tem_molho, $molho) {
         $dados = array("melhor_cor" => "", "fator_crenca" => 0);
         $retorno = array();
