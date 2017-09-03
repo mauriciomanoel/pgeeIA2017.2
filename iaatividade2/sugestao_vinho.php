@@ -70,27 +70,26 @@
             $dados["fator_crenca"] = 0.9;
             $retorno[] = $dados;
         } else {
-            if ($tem_molho == TEM_MOLHO_SIM && $molho = MOLHO_TOMATE) {
+            if ($tem_molho == TEM_MOLHO_SIM && $molho == MOLHO_TOMATE) {
                 $dados["melhor_cor"] = MELHOR_COR_TINTO;
                 $dados["fator_crenca"] = 0.7;
                 $retorno[] = $dados;
             }
-            if ($prato_principal == PRATO_PRINCIPAL_AVE && $tem_peru = TEM_PERU_NAO) {
+            if ($prato_principal == PRATO_PRINCIPAL_AVE && $tem_peru == TEM_PERU_NAO) {
                 $dados["melhor_cor"] = MELHOR_COR_BRANCO;
                 $dados["fator_crenca"] = 0.7;
                 $retorno[] = $dados;
             }
-            if ($prato_principal == PRATO_PRINCIPAL_AVE && $tem_peru = TEM_PERU_SIM) {
+            if ($prato_principal == PRATO_PRINCIPAL_AVE && $tem_peru == TEM_PERU_SIM) {
                 $dados["melhor_cor"] = MELHOR_COR_TINTO;
                 $dados["fator_crenca"] = 0.8;
                 $retorno[] = $dados;
             }
-            if ($prato_principal == PRATO_PRINCIPAL_CARNE && $tem_vitela = TEM_VITELA_NAO) {
+            if ($prato_principal == PRATO_PRINCIPAL_CARNE && $tem_vitela == TEM_VITELA_NAO) {
                 $dados["melhor_cor"] = MELHOR_COR_TINTO;
                 $dados["fator_crenca"] = 0.9;
                 $retorno[] = $dados;
-            }
-            if ($prato_principal == PRATO_PRINCIPAL_CARNE && $tem_vitela = TEM_VITELA_SIM) {
+            } if ($prato_principal == PRATO_PRINCIPAL_CARNE && $tem_vitela == TEM_VITELA_SIM) {
                 $dados["melhor_cor"] = MELHOR_COR_BRANCO;
                 $dados["fator_crenca"] = 0.6;
                 $retorno[] = $dados;
