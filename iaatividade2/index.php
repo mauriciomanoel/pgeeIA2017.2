@@ -111,9 +111,10 @@
                 <input type="range" name="nivel_cor_preferida" min="0" max="1" step="0.01">
             </div>
             <button type="submit" class="btn btn-primary">Sugerir</button>
-            <button id="reset" type="reset" class="btn btn-danger" value="Reset">Reset</button>
-        </form>
+            <button id="reset" type="reset" class="btn btn-danger" value="Reset">Reset</button>            
+        </form>        
   </div>
+  </br>
 
   <!-- Modal -->
     <div class="modal fade" id="modal_prato_principal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
