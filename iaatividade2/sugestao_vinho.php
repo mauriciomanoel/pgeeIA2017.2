@@ -52,7 +52,7 @@
         $fcPropagado = 1;
         $mcPropagado = 1;
         if (!empty($retorno) && count($retorno) > 1) {
-            echo "- Calculando a Progando a Incerteza na regra </br>";
+            echo "- Calculando a Progando a Incerteza na Regra </br>";
             foreach($retorno as $dado) {
                 $fcPropagado *= $dado["fator_crenca"]; 
                 $mcPropagado *= $dado["medida_crenca"]; 
@@ -117,12 +117,14 @@
         return $temp_array; 
     } 
 
-    // Calculo do FC conseqüente
+    // Calculo do FC Conseqüente
     function calculaFC($fcRegra, $mcAnterior) {
+        echo "- Calculo do FC Consequente: \$mc = " . $fcRegra . " * (1 - " . $mcAnterior . ") + " . $mcAnterior . "</br>";
         return $fcRegra * (1 - $mcAnterior) + $mcAnterior;
     }
 
     function calculoFCAntecedente($tipo = "or", $valor1, $valor2) {
+        echo "- Calculo do FC Antecedente: FC(A and B) = min(" . $valor1 . "," . $valor2 . ") </br>";
         if ($tipo == "and") {
             return min($valor1, $valor2);
         } else {
@@ -480,7 +482,7 @@
     echo "e3: Calculo Melhor Doçura<br>";
     echo "- tem_molho: " . $tem_molho . " e molho: " . $molho . " e nivel_molho: " . $nivel_molho . "<br>";
     $melhor_docura = melhorDocura($tem_molho, $molho, $nivel_molho);
-    var_dump($mcAnterior, $melhor_docura); 
+    var_dump($melhor_docura); 
     
     echo "<br>e3: Calculo da Melhor Cor<br>";
     echo "- prato_principal: " . $prato_principal . " e tem_vitela: " . $tem_vitela . " e tem_peru: " . $tem_peru . " e tem_molho: " . $tem_molho  . " e molho: " . $molho  . "<br>";
