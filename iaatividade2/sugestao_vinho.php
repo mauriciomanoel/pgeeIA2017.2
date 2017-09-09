@@ -52,7 +52,9 @@
         $fcPropagado = 1;
         $mcPropagado = 1;
         if (!empty($retorno) && count($retorno) > 1) {
-            echo "- Calculando a Progando a Incerteza na Regra </br>";
+            echo "- Calculando a Progando a Incerteza na Regra</br>";
+            echo "-- FC = " . $retorno[0]["fator_crenca"] . " * " . $retorno[1]["fator_crenca"] . "</br>";
+            echo "-- MC = " . $retorno[0]["medida_crenca"] . " * " . $retorno[1]["medida_crenca"] . "</br>";
             foreach($retorno as $dado) {
                 $fcPropagado *= $dado["fator_crenca"]; 
                 $mcPropagado *= $dado["medida_crenca"]; 
