@@ -43,7 +43,7 @@
     function calculoMelhorDocuraRecomentada($retorno) {
         echo "- Calculo Melhor Doçura Recomentada com base na maior medida de crença</br>";
         $retorno = array_sort($retorno, 'medida_crenca', SORT_DESC);
-        return $retorno[0];
+        return $retorno;
     }
 
     function calculoPropagandoIncertezaRegra($retorno) {
@@ -64,8 +64,8 @@
             $retorno[0]["medida_crenca"] = $mcPropagado;
         }
 
-        unset($retorno[1]);
-        return $retorno[0];
+        //unset($retorno[1]);
+        return $retorno;
     }
 
     // Ordenando um array
@@ -232,7 +232,7 @@
         }
 
         if (!empty($retorno)) {
-            return $retorno[0];
+            return $retorno;
         } else {
             echo "- Não foi possível encontrar a melhor cor com os parâmetros encontrados </br>";
             return null;
@@ -288,7 +288,7 @@
         if (!empty($retorno) && count($retorno) > 1) {
             return calculoPropagandoIncertezaRegra($retorno);
         } else {
-            return $retorno[0];
+            return $retorno;
         }
     }
 
@@ -306,7 +306,7 @@
             $dados["fator_crenca"] = $fc;
             $dados["medida_crenca"] = $mc;
             $retorno[] = $dados;
-        } else if ($prato_principal == PRATO_PRINCIPAL_VEGETARIANO) {            
+        }  if ($prato_principal == PRATO_PRINCIPAL_VEGETARIANO) {            
             $fcRegra = 0.7;
             $mcAnterior = $melhor_docura["medida_crenca"];
             $fc = $mcAnterior;
@@ -315,7 +315,7 @@
             $dados["fator_crenca"] = $fc;
             $dados["medida_crenca"] = $mc;
             $retorno[] = $dados;
-        } else {
+        }  
             if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_DOCE) {
                 $fcRegra = 0.8;
                 $mcAnterior = $melhor_docura["fator_crenca"];
@@ -345,8 +345,7 @@
                 $dados["fator_crenca"] = $fc;
                 $dados["medida_crenca"] = $mc;
                 $retorno[] = $dados;
-            }
-            if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_DOCE && $docura_preferida == DOCURA_PREFERIDA_SECO) {
+            } if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_DOCE && $docura_preferida == DOCURA_PREFERIDA_SECO) {
                 $fcRegra = 0.8;
                 $mcAnterior = calculoFCAntecedente("and", $melhor_docura["medida_crenca"], $nivel_docura_preferida);
                 $fc = $mcAnterior;
@@ -356,7 +355,7 @@
                 $dados["medida_crenca"] = $mc;
                 $retorno[] = $dados;
             }
-        }
+        
 
         // 
         if (!empty($retorno) && count($retorno) > 1) {
@@ -366,7 +365,7 @@
                 $retorno = calculoMelhorDocuraRecomentada($retorno);
             }
         } else {
-            $retorno = $retorno[0];
+            $retorno = $retorno;
         }
 
         return $retorno;
@@ -499,7 +498,7 @@
     echo "<br>e2: Calculo Doçura Recomentada<br>";
     echo "- prato_principal: " . $prato_principal . " e melhor_docura: " . $melhor_docura["melhor_docura"] . " e docura_preferida: " . $docura_preferida . " e nivel_docura_preferida: " . $nivel_docura_preferida ."<br>";
     $docura_recomendada = docuraRecomentada($prato_principal, $melhor_docura, $docura_preferida, $nivel_docura_preferida);
-    var_dump($docura_recomendada);
+    var_dump($docura_recomendada); exit;
 
     echo "<br>e1: Calculo Vinho<br>";    
     echo "- cor_recomendada: " . $cor_recomendada["cor_recomendada"] . " e docura_recomendada: " . $docura_recomendada["docura_recomendada"] . "<br>";
