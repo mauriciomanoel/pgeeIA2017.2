@@ -362,11 +362,15 @@
             }
         }
 
-        if (!empty($retorno)) {
-            return $retorno;
-        } else {
+        if ( empty($retorno) ) {
             echo "- Não foi possível encontrar a melhor cor com os parâmetros encontrados </br>";
             return null;
+        }
+
+        if (count($retorno) > 1) {
+            return verificaMesmaDocuraRecomentada($retorno);
+        } else {
+            return $retorno;
         }
     }
 
