@@ -1,4 +1,5 @@
 <?php
+
 /*
  DUVIDAS: Qual o comportamento para calcular a melhor cor se o prato principal for vegetariano
 */
@@ -21,21 +22,151 @@
     var_dump($_POST);
     $mcAnterior = 0;
 
+    // define("DOCURA_PREFERIDA_DOCE", 'DOCE');
+	// define("DOCURA_PREFERIDA_SUAVE", 'SUAVE');
+    // define("DOCURA_PREFERIDA_SECO", 'SECO');
+    
+    function search_value_in($needle, $arr)
+    {
+        $result = [];
+        $found = 0;
+        if (is_array($arr)) {
+            foreach ($arr as $in) {
+                if (is_array($in)) {
+                   if (array_search($needle, $in) !== false) {
+                       $result[] = $found;
+                   }
+                } 
+                $found++;
+            }
+        }
+        return $result;
+    }
+    
+    function get_valores_duplicados($keys, $valores) {
+        $temp = array();
+        foreach($keys as $key) {
+            $temp[] = $valores[$key];
+        }
+
+        return $temp;
+    }
     // Verifica se todos os tipos são iguais
-    function verificaMesmaDocuraRecomentada($retorno) {
+    function verificaMesmaDocuraRecomentada($valores) {
         $resposta = true;
-        if (!empty($retorno) && count($retorno) > 1) {
-            
-            $tipoPrincipal = $retorno[0]["docura_recomendada"];
-            foreach($retorno as $dado) {
-                if ($tipoPrincipal != $dado["docura_recomendada"]) {
-                    $resposta = false;
-                    break;
+        if (!empty($valores) && count($valores) > 1) {
+            // Verificando se existe duplicidade para DOCE
+            $keys = search_value_in(DOCURA_PREFERIDA_DOCE, $valores);
+            if ( !empty( $keys ) && count($keys) > 1) {
+                echo "* DUPLICIDADE ENCONTRADA PARA: " . DOCURA_PREFERIDA_DOCE . "<br>";
+                // Verifica se o array esta triplicado
+                if (count($keys) == 3) {
+                    $temp = array_sort($valores, "medida_crenca", SORT_DESC);
+                    $novo_valor = array($temp[0]);
+                    return $novo_valor;
                 }
+                $temp = get_valores_duplicados($keys, $valores);                
+                $novo_valor = calculoPropagandoIncertezaRegra($temp);
+                // Adicionando a medida original sem duplicidade
+                foreach($valores as $k => $valor) {
+                    if (array_search($k, $keys) === false) {
+                        $novo_valor[] = $valor;
+                    }
+                }
+                return $novo_valor;
             }
             
-            echo "- Verificando se os dados são do mesmo Tipo: ". ($resposta ? 'true' : 'false') . "</br>";
-            return $resposta;
+            // Verificando se existe duplicidade para SUAVE
+            $keys = array();
+            $keys = search_value_in(DOCURA_PREFERIDA_SUAVE, $valores);
+            if ( !empty( $keys ) && count($keys) > 1) {
+                echo "* DUPLICIDADE ENCONTRADA PARA: " . DOCURA_PREFERIDA_SUAVE . "<br>";
+                // Verifica se o array esta triplicado
+                if (count($keys) == 3) {
+                    $temp = array_sort($valores, "medida_crenca", SORT_DESC);
+                    $novo_valor = array($temp[0]);
+                    return $novo_valor;
+                }
+                $temp = get_valores_duplicados($keys, $valores);                
+                $novo_valor = calculoPropagandoIncertezaRegra($temp);                
+                // Adicionando a medida original sem duplicidade
+                foreach($valores as $k => $valor) {
+                    if (array_search($k, $keys) === false) {
+                        $novo_valor[] = $valor;
+                    }
+                }
+                
+                return $novo_valor;
+            }
+
+            // Verificando se existe duplicidade para SECO
+            $keys = array();
+            $keys = search_value_in(DOCURA_PREFERIDA_SECO, $valores);
+            if ( !empty( $keys ) && count($keys) > 1) {
+                echo "* DUPLICIDADE ENCONTRADA PARA: " . DOCURA_PREFERIDA_SECO . "<br>";
+                // Verifica se o array esta triplicado
+                if (count($keys) == 3) {
+                    $temp = array_sort($valores, "medida_crenca", SORT_DESC);
+                    $novo_valor = array($temp[0]);
+                    return $novo_valor;
+                }
+                $temp = get_valores_duplicados($keys, $valores);                
+                $novo_valor = calculoPropagandoIncertezaRegra($temp);
+                // Adicionando a medida original sem duplicidade
+                foreach($valores as $k => $valor) {
+                    if (array_search($k, $keys) === false) {
+                        $novo_valor[] = $valor;
+                    }
+                }
+                return $novo_valor;
+            }
+
+            // Verificando se existe duplicidade para COR_RECOMENTADA_TINTO
+            $keys = array();
+            $keys = search_value_in(COR_RECOMENTADA_TINTO, $valores);
+            if ( !empty( $keys ) && count($keys) > 1) {
+                echo "* DUPLICIDADE ENCONTRADA PARA: " . COR_RECOMENTADA_TINTO . "<br>";
+                // Verifica se o array esta triplicado
+                if (count($keys) == 3) {
+                    $temp = array_sort($valores, "medida_crenca", SORT_DESC);
+                    $novo_valor = array($temp[0]);
+                    return $novo_valor;
+                }
+
+                $temp = get_valores_duplicados($keys, $valores);  
+                $novo_valor = calculoPropagandoIncertezaRegra($temp);
+                // Adicionando a medida original sem duplicidade
+                foreach($valores as $k => $valor) {
+                    if (array_search($k, $keys) === false) {
+                        $novo_valor[] = $valor;
+                    }
+                }
+               
+                return $novo_valor;
+            }
+
+            $keys = array();
+            $keys = search_value_in(COR_RECOMENTADA_BRANCO, $valores);
+            if ( !empty( $keys ) && count($keys) > 1) {
+                echo "* DUPLICIDADE ENCONTRADA PARA: " . COR_RECOMENTADA_BRANCO . "<br>";
+                // Verifica se o array esta triplicado
+                if (count($keys) == 3) {
+                    $temp = array_sort($valores, "medida_crenca", SORT_DESC);
+                    $novo_valor = array($temp[0]);
+                    return $novo_valor;
+                }
+                $temp = get_valores_duplicados($keys, $valores);                
+                $novo_valor = calculoPropagandoIncertezaRegra($temp);
+                // Adicionando a medida original sem duplicidade
+                foreach($valores as $k => $valor) {
+                    if (array_search($k, $keys) === false) {
+                        $novo_valor[] = $valor;
+                    }
+                }
+                return $novo_valor;
+            }
+
+            return $valores;
         }
     }
 
@@ -64,7 +195,7 @@
             $retorno[0]["medida_crenca"] = $mcPropagado;
         }
 
-        //unset($retorno[1]);
+        unset($retorno[1]);
         return $retorno;
     }
 
@@ -273,7 +404,8 @@
             $dados["fator_crenca"] = $fc;
             $dados["medida_crenca"] = $mc;
             $retorno[] = $dados;
-        } else if ($melhor_cor["melhor_cor"] == MELHOR_COR_BRANCO) {
+        } 
+        if ($melhor_cor["melhor_cor"] == MELHOR_COR_BRANCO) {
             $fcRegra = 0.8;
             $mcAnterior = $melhor_cor["fator_crenca"];
             $fc = $mcAnterior;
@@ -286,7 +418,8 @@
         
         // Progando a Incerteza na regra
         if (!empty($retorno) && count($retorno) > 1) {
-            return calculoPropagandoIncertezaRegra($retorno);
+            return verificaMesmaDocuraRecomentada($retorno);
+            // return calculoPropagandoIncertezaRegra($retorno);
         } else {
             return $retorno;
         }
@@ -306,7 +439,8 @@
             $dados["fator_crenca"] = $fc;
             $dados["medida_crenca"] = $mc;
             $retorno[] = $dados;
-        }  if ($prato_principal == PRATO_PRINCIPAL_VEGETARIANO) {            
+        }  
+        if ($prato_principal == PRATO_PRINCIPAL_VEGETARIANO) {            
             $fcRegra = 0.7;
             $mcAnterior = $melhor_docura["medida_crenca"];
             $fc = $mcAnterior;
@@ -316,57 +450,50 @@
             $dados["medida_crenca"] = $mc;
             $retorno[] = $dados;
         }  
-            if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_DOCE) {
-                $fcRegra = 0.8;
-                $mcAnterior = $melhor_docura["fator_crenca"];
-                $fc = $mcAnterior;
-                $mc = $fcRegra;
-                $dados["docura_recomendada"] = DOCURA_RECOMENTADA_DOCE;
-                $dados["fator_crenca"] = $fc;
-                $dados["medida_crenca"] = $mc;
-                $retorno[] = $dados;
-            }            
-            if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_SECO && $docura_preferida == DOCURA_PREFERIDA_DOCE) {
-                $fcRegra = 0.8;
-                $mcAnterior = calculoFCAntecedente("and", $melhor_docura["medida_crenca"], $nivel_docura_preferida);
-                $fc = $mcAnterior;
-                $mc = calculaFC($fcRegra, $mcAnterior);
-                $dados["docura_recomendada"] = DOCURA_RECOMENTADA_SUAVE;
-                $dados["fator_crenca"] = $fc;
-                $dados["medida_crenca"] = $mc;
-                $retorno[] = $dados;
-            } 
-            if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_SECO) {
-                $fcRegra = 0.8;
-                $mcAnterior = $melhor_docura["fator_crenca"];
-                $fc = $mcAnterior;
-                $mc = $fcRegra;
-                $dados["docura_recomendada"] = DOCURA_RECOMENTADA_SECO;
-                $dados["fator_crenca"] = $fc;
-                $dados["medida_crenca"] = $mc;
-                $retorno[] = $dados;
-            } if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_DOCE && $docura_preferida == DOCURA_PREFERIDA_SECO) {
-                $fcRegra = 0.8;
-                $mcAnterior = calculoFCAntecedente("and", $melhor_docura["medida_crenca"], $nivel_docura_preferida);
-                $fc = $mcAnterior;
-                $mc = calculaFC($fcRegra, $mcAnterior);
-                $dados["docura_recomendada"] = DOCURA_RECOMENTADA_SUAVE;
-                $dados["fator_crenca"] = $fc;
-                $dados["medida_crenca"] = $mc;
-                $retorno[] = $dados;
-            }
+        if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_DOCE) {
+            $fcRegra = 0.8;
+            $mcAnterior = $melhor_docura["fator_crenca"];
+            $fc = $mcAnterior;
+            $mc = $fcRegra;
+            $dados["docura_recomendada"] = DOCURA_RECOMENTADA_DOCE;
+            $dados["fator_crenca"] = $fc;
+            $dados["medida_crenca"] = $mc;
+            $retorno[] = $dados;
+        }            
+        if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_SECO && $docura_preferida == DOCURA_PREFERIDA_DOCE) {
+            $fcRegra = 0.8;
+            $mcAnterior = calculoFCAntecedente("and", $melhor_docura["medida_crenca"], $nivel_docura_preferida);
+            $fc = $mcAnterior;
+            $mc = calculaFC($fcRegra, $mcAnterior);
+            $dados["docura_recomendada"] = DOCURA_RECOMENTADA_SUAVE;
+            $dados["fator_crenca"] = $fc;
+            $dados["medida_crenca"] = $mc;
+            $retorno[] = $dados;
+        } 
+        if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_SECO) {
+            $fcRegra = 0.8;
+            $mcAnterior = $melhor_docura["fator_crenca"];
+            $fc = $mcAnterior;
+            $mc = $fcRegra;
+            $dados["docura_recomendada"] = DOCURA_RECOMENTADA_SECO;
+            $dados["fator_crenca"] = $fc;
+            $dados["medida_crenca"] = $mc;
+            $retorno[] = $dados;
+        } if ($melhor_docura["melhor_docura"] == MELHOR_DOCURA_DOCE && $docura_preferida == DOCURA_PREFERIDA_SECO) {
+            $fcRegra = 0.8;
+            $mcAnterior = calculoFCAntecedente("and", $melhor_docura["medida_crenca"], $nivel_docura_preferida);
+            $fc = $mcAnterior;
+            $mc = calculaFC($fcRegra, $mcAnterior);
+            $dados["docura_recomendada"] = DOCURA_RECOMENTADA_SUAVE;
+            $dados["fator_crenca"] = $fc;
+            $dados["medida_crenca"] = $mc;
+            $retorno[] = $dados;
+        }
         
-
         // 
         if (!empty($retorno) && count($retorno) > 1) {
-            if (verificaMesmaDocuraRecomentada($retorno) == true) {
-                $retorno = calculoPropagandoIncertezaRegra($retorno);
-            } else {
-                $retorno = calculoMelhorDocuraRecomentada($retorno);
-            }
-        } else {
-            $retorno = $retorno;
-        }
+           $retorno = verificaMesmaDocuraRecomentada($retorno);
+        } 
 
         return $retorno;
     }
@@ -487,22 +614,45 @@
     
     echo "<br>e3: Calculo da Melhor Cor<br>";
     echo "- prato_principal: " . $prato_principal . " e tem_vitela: " . $tem_vitela . " e tem_peru: " . $tem_peru . " e tem_molho: " . $tem_molho  . " e molho: " . $molho  . "<br>";
-    $melhor_cor = melhorCor($prato_principal, $tem_vitela, $tem_peru, $tem_molho, $molho, $nivel_molho);
-    var_dump($melhor_cor);
+    $melhor_cores = melhorCor($prato_principal, $tem_vitela, $tem_peru, $tem_molho, $molho, $nivel_molho);
+    var_dump($melhor_cores); 
     
-    echo "<br>e2: Calculo Cor Recomentada<br>";
-    echo "- cor_preferida: " . $cor_preferida . " e melhor_cor: " . $melhor_cor["melhor_cor"] . " e prato_principal: " . $prato_principal . "<br>";
-    $cor_recomendada = corRecomendada($cor_preferida, $nivel_cor_preferida, $melhor_cor, $prato_principal);
-    var_dump($cor_recomendada);
-    
+    echo "<br>e2: Calculo Cor Recomentada<br>"; 
+    if ($melhor_cores != null) {
+        $cores_recomendada = array();
+        foreach($melhor_cores as $melhor_cor) {
+            echo "- cor_preferida: " . $cor_preferida . " e melhor_cor: " . $melhor_cor["melhor_cor"] . " e prato_principal: " . $prato_principal . "<br>";
+            $temp = corRecomendada($cor_preferida, $nivel_cor_preferida, $melhor_cor, $prato_principal);
+            foreach($temp as $valor) {
+                $cores_recomendada[] = $valor;
+            }        
+        }
+    } else {
+        echo "- cor_preferida: " . $cor_preferida . " e melhor_cor: " . " - " . " e prato_principal: " . $prato_principal . "<br>";
+        $cores_recomendada = corRecomendada($cor_preferida, $nivel_cor_preferida, null, $prato_principal);
+    }
+    var_dump($cores_recomendada);
+
     echo "<br>e2: Calculo Doçura Recomentada<br>";
     echo "- prato_principal: " . $prato_principal . " e melhor_docura: " . $melhor_docura["melhor_docura"] . " e docura_preferida: " . $docura_preferida . " e nivel_docura_preferida: " . $nivel_docura_preferida ."<br>";
-    $docura_recomendada = docuraRecomentada($prato_principal, $melhor_docura, $docura_preferida, $nivel_docura_preferida);
-    var_dump($docura_recomendada); exit;
+    $docuras_recomendada = docuraRecomentada($prato_principal, $melhor_docura, $docura_preferida, $nivel_docura_preferida);
+    var_dump($docuras_recomendada);
 
-    echo "<br>e1: Calculo Vinho<br>";    
-    echo "- cor_recomendada: " . $cor_recomendada["cor_recomendada"] . " e docura_recomendada: " . $docura_recomendada["docura_recomendada"] . "<br>";
-    $vinho = melhorVinho($cor_recomendada, $docura_recomendada);
-    var_dump($vinho);
+    echo "<br>e1: Calculo Vinho<br>";
+    $vinhos = array();
+    foreach($cores_recomendada as $cor_recomendada) {
+        foreach($docuras_recomendada as $docura_recomendada) {
+            echo "- cor_recomendada: " . $cor_recomendada["cor_recomendada"] . " e docura_recomendada: " . $docura_recomendada["docura_recomendada"] . "<br>";
+            $valores = melhorVinho($cor_recomendada, $docura_recomendada);
+            var_dump($valores);
+            foreach($valores as $valor) {
+                $vinhos[] = $valor;
+            }
+        }
+    }
 
+    $vinhos = array_sort($vinhos, "medida_crenca", SORT_DESC);
+    echo "<br><br> *** SISTEMA DE RECOMENDAÇÃO DE VINHOS *** <br>";
+    var_dump($vinhos);
+    
 ?>
