@@ -4,7 +4,7 @@ $(document).ready(function(){
     function updateRangeInput(elem) {
         $(elem).next().val($(elem).val());
       }
-    
+    //
     function imprimirLegendaNivelMolho(valor) {
         valor*= 10;
         if (valor >= 0 && valor < 2) {
