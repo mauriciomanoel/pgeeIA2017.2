@@ -76,7 +76,7 @@
                     <option value="<?php echo MOLHO_TOMATE; ?>">Tomate</option>
                 </select>
                 <label for="nivel_molho">Nível do Molho</label>
-                <input type="range" name="nivel_molho" min="0" max="1" step="0.01">
+                <input type="range" id="nivel_molho" name="nivel_molho" min="0" max="1" step="0.01"> <label id="range_text_nivel_molho" />
             </div>   
             <div class="form-group" id="div_sabor">
                 <label for="sabor">Sabor</label>
