@@ -21,11 +21,7 @@
     echo "<pre>PARAMETROS:<br>"; 
     var_dump($_POST);
     $mcAnterior = 0;
-
-    // define("DOCURA_PREFERIDA_DOCE", 'DOCE');
-	// define("DOCURA_PREFERIDA_SUAVE", 'SUAVE');
-    // define("DOCURA_PREFERIDA_SECO", 'SECO');
-    
+  
     function search_value_in($needle, $arr)
     {
         $result = [];

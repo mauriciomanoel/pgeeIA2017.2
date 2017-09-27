@@ -19,15 +19,59 @@ $(document).ready(function(){
             return "Extra Forte";
         }
     }
+
+    function imprimirNivelDocura(valor) {
+        valor*= 10;
+        if (valor >= 0 && valor < 2) {
+            return "Super Fraco";
+        } else if (valor >= 2 && valor < 4) {
+            return "Fraco";
+        } else if (valor >= 4 && valor < 6) {
+            return "Médio";
+        } else if (valor >= 6 && valor < 8) {
+            return "Muito Doce";
+        } else {
+            return "Extra Doce";
+        }
+    }
+
+    function imprimirNivelCorPreferida(valor) {
+        valor*= 10;
+        if (valor >= 0 && valor < 2) {
+            return "Não é Relevante";
+        } else if (valor >= 2 && valor < 4) {
+            return "Pouco Relevante";
+        } else if (valor >= 4 && valor < 6) {
+            return "Médio";
+        } else if (valor >= 6 && valor < 8) {
+            return "Importante";
+        } else {
+            return "Muito Importante";
+        }
+    }
       
     // on page load, set the text of the label based the value of the range
     $('#range_text_nivel_molho').text(imprimirLegendaNivelMolho($('#nivel_molho').val()));
+    $('#range_text_nivel_sabor').text(imprimirLegendaNivelMolho($('#nivel_sabor').val()));
+    $('#range_text_nivel_docura_preferida').text(imprimirNivelDocura($('#nivel_docura_preferida').val()));
+    $('#range_text_nivel_cor_preferida').text(imprimirNivelCorPreferida($('#nivel_cor_preferida').val()));
 
-    // setup an event handler to set the text when the range value is dragged (see event for input) or changed (see event for change)
+    
     $('#nivel_molho').on('input change', function () {
         $('#range_text_nivel_molho').text(imprimirLegendaNivelMolho($(this).val()));
     });
 
+    $('#nivel_sabor').on('input change', function () {
+        $('#range_text_nivel_sabor').text(imprimirLegendaNivelMolho($(this).val()));
+    });
+
+    $('#nivel_docura_preferida').on('input change', function () {
+        $('#range_text_nivel_docura_preferida').text(imprimirNivelDocura($(this).val()));
+    });
+
+    $('#nivel_cor_preferida').on('input change', function () {
+        $('#range_text_nivel_cor_preferida').text(imprimirNivelCorPreferida($(this).val()));
+    });
       
     $("#reset").click(function(){
         $( "#div_molho" ).show();

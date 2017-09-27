@@ -31,6 +31,9 @@
 	define("TEM_VITELA_NAO", 'NAO');
 	define("TEM_VITELA_SIM", 'SIM');	
 
+	define("TEM_PERU_NAO", 'NAO');
+	define("TEM_PERU_SIM", 'SIM');
+
 	define("MELHOR_COR_TINTO", 'TINTO');
 	define("MELHOR_COR_BRANCO", 'BRANCO');
 

@@ -87,7 +87,7 @@
                 <option value="<?php echo SABOR_FORTE; ?>">Forte</option>
                 </select>
                 <label for="nivel_sabor">Nível do Sabor</label>
-                <input type="range" name="nivel_sabor" min="0" max="1" step="0.01">
+                <input type="range" id="nivel_sabor" name="nivel_sabor" min="0" max="1" step="0.01"><label id="range_text_nivel_sabor" />
             </div>
             <div class="form-group" id="div_docura_preferida">
                 <label for="docura_preferida">Docura Preferida</label>
@@ -98,7 +98,7 @@
                     <option value="<?php echo DOCURA_PREFERIDA_SECO; ?>">Seco</option>
                 </select>
                 <label for="nivel_docura_preferida">Nível da Doçura Preferida</label>
-                <input type="range" name="nivel_docura_preferida" min="0" max="1" step="0.01">
+                <input type="range" id="nivel_docura_preferida" name="nivel_docura_preferida" min="0" max="1" step="0.01"><label id="range_text_nivel_docura_preferida" />
             </div>
             <div class="form-group" id="div_cor_preferida">
                 <label for="cor_preferida">Cor Preferida</label>
@@ -108,7 +108,7 @@
                     <option value="<?php echo MELHOR_COR_BRANCO; ?>">Branco</option>
                 </select>
                 <label for="nivel_cor_preferida">Nível da Cor Preferida</label>
-                <input type="range" name="nivel_cor_preferida" min="0" max="1" step="0.01">
+                <input type="range" id="nivel_cor_preferida" name="nivel_cor_preferida" min="0" max="1" step="0.01"><label id="range_text_nivel_cor_preferida" />
             </div>
             <button type="submit" class="btn btn-primary">Sugerir</button>
             <button id="reset" type="reset" class="btn btn-danger" value="Reset">Reset</button>            
