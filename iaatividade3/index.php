@@ -285,7 +285,7 @@ function rate($dna, $distances) {
 
 function debug($ar) {
 	echo "<table class='debug'>";
-	echo "<tr><th>&nbsp;</th><th>DNA</th><th>Fit</th><th>Roulette</th></tr>\n";
+	echo "<tr><th>&nbsp;</th><th>DNA</th><th>Distancia</th><th>Change</th></tr>\n";
 	foreach($ar as $element => $value) {
 		echo "<tr><td>" . leadingZero($element) . "</td><td>" . $value['dna'] . "</td><td>" . $value['rate'] . "</td><td>" . sprintf("%01.2f", $value['chances'] * 100) . "%</td></tr>\n";
 	}
