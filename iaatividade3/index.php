@@ -53,14 +53,14 @@ form {
 <table width="500" border="0" cellspacing="2" cellpadding="0" style='border: 1px solid #999;' align="center">
   <tr>
     <td><strong>Cidades</strong></td>
-    <td align="center" class='cityCell'>Cidade 1</td>
-    <td align="center" class='cityCell'>Cidade 2</td>
-    <td align="center" class='cityCell'>Cidade 3</td>
-    <td align="center" class='cityCell'>Cidade 4</td>
-    <td align="center" class='cityCell'>Cidade 5</td>
+    <td align="center" class='cityCell'>Cidade 1 (A)</td>
+    <td align="center" class='cityCell'>Cidade 2 (B)</td>
+    <td align="center" class='cityCell'>Cidade 3 (C)</td>
+    <td align="center" class='cityCell'>Cidade 4 (D)</td>
+    <td align="center" class='cityCell'>Cidade 5 (E)</td>
   </tr>
   <tr>
-    <td>Cidade 1</td>
+    <td>Cidade 1 (A)</td>
     <td bgcolor="#CC3333"><div align="center">0</div></td>
     <td><div align="center">
       <input name="1_2" type="text" class="input" id="textfield" size="4" maxlength="4" value="<?=$_POST['1_2']?>" />
@@ -76,7 +76,7 @@ form {
     </div></td>
   </tr>
   <tr>
-    <td>Cidade 2</td>
+    <td>Cidade 2 (B)</td>
     <td><div align="center"></div></td>
     <td bgcolor="#CC3333"><div align="center">0</div></td>
     <td><div align="center">
@@ -90,7 +90,7 @@ form {
     </div></td>
   </tr>
   <tr>
-    <td>Cidade 3</td>
+    <td>Cidade 3 (C)</td>
     <td><div align="center"></div></td>
     <td><div align="center"></div></td>
     <td bgcolor="#CC3333"><div align="center">0</div></td>
@@ -102,7 +102,7 @@ form {
     </div></td>
   </tr>
   <tr>
-    <td>Cidade 4</td>
+    <td>Cidade 4 (D)</td>
     <td><div align="center"></div></td>
     <td><div align="center"></div></td>
     <td><div align="center"></div></td>
@@ -112,7 +112,7 @@ form {
     </div></td>
   </tr>
   <tr>
-    <td>Cidade 5</td>
+    <td>Cidade 5 (E)</td>
     <td><div align="center"></div></td>
     <td><div align="center"></div></td>
     <td><div align="center"></div></td>
@@ -133,7 +133,7 @@ form {
     <td align="right"><input name="generations" type="text" class="input" id="textfield24" value="<?=$_POST['generations']?>" size="5" maxlength="5" /></td>
   </tr>
   <tr>
-    <td>Elite</td>
+    <td>Elite (Elitism)</td>
     <td align="right"><input name="elitism" type="text" class="input" id="textfield25" value="<?=$_POST['elitism']?>" size="5" maxlength="2" /></td>
   </tr>
   <tr>
@@ -145,7 +145,7 @@ form {
 if (!empty($_POST)) {
 	define('CITY_COUNT', 6);
 	$population = $_POST['population'] + 0;
-	if ($population > 999) # Gotta protect my CPU...
+	if ($population > 999) 
 		$population = 999;
 		
 	$generations = $_POST['generations'] + 0;
@@ -156,12 +156,12 @@ if (!empty($_POST)) {
 	$initialPopulation = array();
 	$currentPopulation = array();
 	
-	# Take user city names and put it into an array
+	# Carregando os nomes das cidades no array
 	for ($i = 1; $i <= CITY_COUNT; $i++) {
 		$names[$i] = $_POST['name'.$i];
 	}
 	
-	# Take user distance data and put it into a multidimensional array
+	# Montando um array com as ditâncias entre as cidades 
 	for ($i = 1; $i <= CITY_COUNT; $i++) {
 		for ($j = 1; $j <= CITY_COUNT; $j++) {
 			// var_dump($_POST[$i . '_' . $j]);
@@ -174,21 +174,14 @@ if (!empty($_POST)) {
 		}
 	}
 	
-	// echo "<pre>"; var_dump($distances); exit;
-	// A = 1
-	// D = 4
-	// C = 3
-	// E = 5
-	// B = 2
-
-	# Building our initial population
+	# Construindo uma população aleatoriamente
 	for($i = 0; $i < $population; $i++) {
 		$initialPopulation[$i] = pickRandom();
 	}
 	
 	for ($k = 1; $k <= $generations; $k++) {
 		echo "<div><strong>Generation $k</strong></div>\n";
-		# Rating population (I do some weird math to figure out their goodness level, not sure if it is good).
+		# Classificando a População
 		echo "<pre>";
 		$i = 0;
 		$distanceSum = 0;
@@ -196,12 +189,13 @@ if (!empty($_POST)) {
 		
 		foreach ($initialPopulation AS $entity) {
 			$currentPopulation[$i]['dna'] = $entity;
-			$currentPopulation[$i]['rate'] = rate($entity, $distances);
-			$distanceSum += $currentPopulation[$i]['rate'];
+			$currentPopulation[$i]['rate'] = rate($entity, $distances); // calculando a taxa
+			$distanceSum += $currentPopulation[$i]['rate']; // somatório da taxa
 			if ($currentPopulation[$i]['rate'] > $biggest)
-				$biggest = $currentPopulation[$i]['rate'];
+				$biggest = $currentPopulation[$i]['rate']; // pegando o maior valor
 			$i++;
 		}
+
 		$biggest += 1;
 		$chancesSum = 0;
 		for ($i = 0; $i < $population; $i++ ) {
@@ -217,11 +211,12 @@ if (!empty($_POST)) {
 			$currentPopulation[$i]['floor'] = $ceilSum;
 			$ceilSum += $currentPopulation[$i]['chances'];
 		}
-		debug($currentPopulation);
+		imprimirResultado($currentPopulation);
 
 		echo "</pre>\n";
 		if (converging($initialPopulation))
 			break;
+
 		#Breeding time
 		$initialPopulation = array();
 		for ($j = 0; $j < $elitism; $j++) {
@@ -266,32 +261,38 @@ function converging($pop) {
 	else
 		return false;
 }
+
+// Função para criar rodas aleatoriamente
 function pickRandom() {
 	$choices = array('B', 'C', 'D', 'E');
-	shuffle($choices);
-	array_unshift($choices, "A");
-	array_push($choices, "A");
-	return implode('',$choices);
+	shuffle($choices); // Mistura os elementos no array http://php.net/manual/pt_BR/function.shuffle.php
+	array_unshift($choices, "A"); // Adiciona no inicio do array
+	array_push($choices, "A"); // Adiciona no fim do array
+	return implode('',$choices); // transforma de array para string
 }
 
+// Função para Calcular a distância com base no DNA
 function rate($dna, $distances) {
 	$mileage = 0;
 	$letters = str_split($dna);
 	for ($i = 0; $i < CITY_COUNT - 1; $i++) {
-		$mileage += $distances[let2num($letters[$i])][let2num($letters[$i+1])];
+		$mileage += $distances[string_to_number($letters[$i])][string_to_number($letters[$i+1])];
 	}
+	var_dump($mileage); exit;
 	return $mileage;
 }
 
-function debug($ar) {
+// função para imprimir os dados
+function imprimirResultado($elements) {
 	echo "<table class='debug'>";
-	echo "<tr><th>&nbsp;</th><th>DNA</th><th>Distancia</th><th>Change</th></tr>\n";
-	foreach($ar as $element => $value) {
-		echo "<tr><td>" . leadingZero($element) . "</td><td>" . $value['dna'] . "</td><td>" . $value['rate'] . "</td><td>" . sprintf("%01.2f", $value['chances'] * 100) . "%</td></tr>\n";
+	echo "<tr><th>ID&nbsp;</th><th>DNA</th><th>Distancia</th><th>Change</th></tr>\n";
+	foreach($elements as $element => $value) {
+		echo "<tr><td>" . sprintf("%03s",   $element)  . "</td><td>" . $value['dna'] . "</td><td>" . $value['rate'] . "</td><td>" . sprintf("%01.2f", $value['chances'] * 100) . "%</td></tr>\n";
 	}
 	echo "</table>\n";
 }
 
+// Formatar número
 function leadingZero($value) {
 	if ($value < 10)
 		$value = '00' . $value;
@@ -300,7 +301,7 @@ function leadingZero($value) {
 	return $value;
 }
 
-function mate($mommy, $daddy) { # VERY INEFFICIENT! Combines genes randomly from both parents and if genes are repeated we do it again.
+function mate($mommy, $daddy) { 
 	$baby = "AAAAAA";
 	
 	while (substr_count($baby, 'A') != 2 || substr_count($baby, 'B') != 1 || substr_count($baby, 'C') != 1 || substr_count($baby, 'D') != 1 || substr_count($baby, 'E') != 1) {
@@ -316,7 +317,7 @@ function mate($mommy, $daddy) { # VERY INEFFICIENT! Combines genes randomly from
 	return $baby;
 }
 
-function let2num($char) {
+function string_to_number($char) {
 	if ($char == 'A')
 		return 1;
 	else if ($char == 'B')
