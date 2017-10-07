@@ -63,16 +63,16 @@ form {
     <td>Cidade 1 (A)</td>
     <td bgcolor="#CC3333"><div align="center">0</div></td>
     <td><div align="center">
-      <input name="1_2" type="text" class="input" id="textfield" size="4" maxlength="4" value="<?=$_POST['1_2']?>" />
+      <input name="1_2" type="text" class="input" id="textfield" size="4" maxlength="4" value="2" />
     </div></td>
     <td><div align="center">
-      <input name="1_3" type="text" class="input" id="textfield2" size="4" maxlength="4" value="<?=$_POST['1_3']?>" />
+      <input name="1_3" type="text" class="input" id="textfield2" size="4" maxlength="4" value="6" />
     </div></td>
     <td><div align="center">
-      <input name="1_4" type="text" class="input" id="textfield3" size="4" maxlength="4" value="<?=$_POST['1_4']?>" />
+      <input name="1_4" type="text" class="input" id="textfield3" size="4" maxlength="4" value="3" />
     </div></td>
     <td><div align="center">
-      <input name="1_5" type="text" class="input" id="textfield4" size="4" maxlength="4" value="<?=$_POST['1_5']?>" />
+      <input name="1_5" type="text" class="input" id="textfield4" size="4" maxlength="4" value="6" />
     </div></td>
   </tr>
   <tr>
@@ -80,13 +80,13 @@ form {
     <td><div align="center"></div></td>
     <td bgcolor="#CC3333"><div align="center">0</div></td>
     <td><div align="center">
-      <input name="2_3" type="text" class="input" id="textfield7" size="4" maxlength="4" value="<?=$_POST['2_3']?>" />
+      <input name="2_3" type="text" class="input" id="textfield7" size="4" maxlength="4" value="4" />
     </div></td>
     <td><div align="center">
-      <input name="2_4" type="text" class="input" id="textfield8" size="4" maxlength="4" value="<?=$_POST['2_4']?>" />
+      <input name="2_4" type="text" class="input" id="textfield8" size="4" maxlength="4" value="3" />
     </div></td>
     <td><div align="center">
-      <input name="2_5" type="text" class="input" id="textfield9" size="4" maxlength="4" value="<?=$_POST['2_5']?>" />
+      <input name="2_5" type="text" class="input" id="textfield9" size="4" maxlength="4" value="7" />
     </div></td>
   </tr>
   <tr>
@@ -95,10 +95,10 @@ form {
     <td><div align="center"></div></td>
     <td bgcolor="#CC3333"><div align="center">0</div></td>
     <td><div align="center">
-      <input name="3_4" type="text" class="input" id="textfield12" size="4" maxlength="4" value="<?=$_POST['3_4']?>" />
+      <input name="3_4" type="text" class="input" id="textfield12" size="4" maxlength="4" value="7" />
     </div></td>
     <td><div align="center">
-      <input name="3_5" type="text" class="input" id="textfield13" size="4" maxlength="4" value="<?=$_POST['3_5']?>" />
+      <input name="3_5" type="text" class="input" id="textfield13" size="4" maxlength="4" value="3" />
     </div></td>
   </tr>
   <tr>
@@ -108,7 +108,7 @@ form {
     <td><div align="center"></div></td>
     <td bgcolor="#CC3333"><div align="center">0</div></td>
     <td><div align="center">
-      <input name="4_5" type="text" class="input" id="textfield16" size="4" maxlength="4" value="<?=$_POST['4_5']?>" />
+      <input name="4_5" type="text" class="input" id="textfield16" size="4" maxlength="4" value="3" />
     </div></td>
   </tr>
   <tr>
@@ -121,6 +121,10 @@ form {
   </tr>
   
 </table>
+<br />
+<div align="center">
+	<img src="rotas.png">
+</div>
 <br />
 <br />
 <table border="0" cellspacing="2" cellpadding="0" style='border: 1px solid #999;' align="center">
@@ -142,6 +146,7 @@ form {
 </table>
 </form>
 <?php
+
 if (!empty($_POST)) {
 	define('CITY_COUNT', 6);
 	$population = $_POST['population'] + 0;
@@ -164,7 +169,6 @@ if (!empty($_POST)) {
 	# Montando um array com as ditâncias entre as cidades 
 	for ($i = 1; $i <= CITY_COUNT; $i++) {
 		for ($j = 1; $j <= CITY_COUNT; $j++) {
-			// var_dump($_POST[$i . '_' . $j]);
 			if (!empty($_POST[$i . '_' . $j]))
 				$distances[$i][$j] = $_POST[$i . '_' . $j];
 			else if (!empty($_POST[$j . '_' . $i]))
@@ -174,11 +178,20 @@ if (!empty($_POST)) {
 		}
 	}
 	
+	$sem_repeticao = array();
 	# Construindo uma população aleatoriamente
 	for($i = 0; $i < $population; $i++) {
-		$initialPopulation[$i] = pickRandom();
+		pickRandom();
 	}
 	
+	# Construindo uma população sem repetição
+	$i = 0;
+	foreach($sem_repeticao as $key => $valor) {
+		$initialPopulation[$i] = $key;
+		$i++;
+	}
+	
+	//echo "<pre>"; var_dump($initialPopulation); exit;
 	for ($k = 1; $k <= $generations; $k++) {
 		echo "<div><strong>Generation $k</strong></div>\n";
 		# Classificando a População
@@ -198,30 +211,35 @@ if (!empty($_POST)) {
 
 		$biggest += 1;
 		$chancesSum = 0;
+		// Calculando a métrica para cada indivíduo da população
 		for ($i = 0; $i < $population; $i++ ) {
 			$currentPopulation[$i]['metric'] = $biggest - $currentPopulation[$i]['rate'];
 			$chancesSum += $currentPopulation[$i]['metric'];
 		}
+
+		// Calculando as changes de cada indivíduo da população
 		for ($i = 0; $i < $population; $i++ ) {
 			$currentPopulation[$i]['chances'] = $currentPopulation[$i]['metric'] / $chancesSum;
 		}
+
 		util::sort($currentPopulation, 'rate');
 		$ceilSum = 0;
 		for ($i = 0; $i < $population; $i++ ) {
 			$currentPopulation[$i]['floor'] = $ceilSum;
 			$ceilSum += $currentPopulation[$i]['chances'];
 		}
+		//var_dump($currentPopulation); exit;
 		imprimirResultado($currentPopulation);
 
 		echo "</pre>\n";
 		if (converging($initialPopulation))
 			break;
 
-		#Breeding time
 		$initialPopulation = array();
 		for ($j = 0; $j < $elitism; $j++) {
 			$initialPopulation[] = $currentPopulation[$j]['dna'];
 		}
+		// Definindo o pai da população
 		for ($j = 0; $j < $population - $elitism; $j++) {
 			$rouletteMale = rand(0, 100) / 100;
 			
@@ -232,8 +250,8 @@ if (!empty($_POST)) {
 				}
 			}
 			
+			// Definindo a mãe da população
 			$rouletteFemale = rand(0, 100) / 100;
-			
 			for ($i = $population - 1; $i >= 0; $i--) {
 				if ($currentPopulation[$i]['floor'] < $rouletteFemale) {
 					$mom = $currentPopulation[$i]['dna'];
@@ -241,7 +259,7 @@ if (!empty($_POST)) {
 				}
 			}
 			
-			$child = mate($mom, $dad);
+			$child = mate($mom, $dad); // criando um novo filho
 			$initialPopulation[] = $child;
 		}
 		
@@ -264,11 +282,18 @@ function converging($pop) {
 
 // Função para criar rodas aleatoriamente
 function pickRandom() {
+	global $sem_repeticao;
 	$choices = array('B', 'C', 'D', 'E');
 	shuffle($choices); // Mistura os elementos no array http://php.net/manual/pt_BR/function.shuffle.php
 	array_unshift($choices, "A"); // Adiciona no inicio do array
 	array_push($choices, "A"); // Adiciona no fim do array
-	return implode('',$choices); // transforma de array para string
+	$sequence = implode('',$choices);
+
+	//var_dump($sequence);
+	if (!empty($sem_repeticao[$sequence])) pickRandom(); 
+	else $sem_repeticao[$sequence] = '1';
+	
+	return $sequence; // transforma de array para string
 }
 
 // Função para Calcular a distância com base no DNA
@@ -278,7 +303,6 @@ function rate($dna, $distances) {
 	for ($i = 0; $i < CITY_COUNT - 1; $i++) {
 		$mileage += $distances[string_to_number($letters[$i])][string_to_number($letters[$i+1])];
 	}
-	var_dump($mileage); exit;
 	return $mileage;
 }
 
@@ -301,6 +325,7 @@ function leadingZero($value) {
 	return $value;
 }
 
+// Fazendo o casamento entre a mãe e o pai
 function mate($mommy, $daddy) { 
 	$baby = "AAAAAA";
 	
