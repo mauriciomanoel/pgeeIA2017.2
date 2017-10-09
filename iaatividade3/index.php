@@ -137,6 +137,10 @@ form {
     <td align="right"><input name="generations" type="text" class="input" id="textfield24" value="<?=$_POST['generations']?>" size="5" maxlength="5" /></td>
   </tr>
   <tr>
+    <td>Mutação</td>
+    <td align="right"><input name="qtdmutation" type="text" class="input" id="textfield26" value="<?=$_POST['qtdmutation']?>" size="5" maxlength="2" /></td>
+  </tr>	
+  <tr>
     <td>Elite (Elitism)</td>
     <td align="right"><input name="elitism" type="text" class="input" id="textfield25" value="<?=$_POST['elitism']?>" size="5" maxlength="2" /></td>
   </tr>
@@ -145,6 +149,7 @@ form {
   </tr>
 </table>
 </form>
+<div><a href="https://www.ncbi.nlm.nih.gov/pubmed/18811247" target="_blank"> Elitism </a></div> </br>
 <?php
 
 if (!empty($_POST)) {
@@ -155,6 +160,8 @@ if (!empty($_POST)) {
 		
 	$generations = $_POST['generations'] + 0;
 	$elitism = $_POST['elitism'] + 0;
+	$qtdmutation = $_POST['qtdmutation'] + 0;
+	$ratemutation = 0;
 	$names = array();
 	$distances = array();
 	
@@ -221,6 +228,17 @@ if (!empty($_POST)) {
 			$currentPopulation[$i]['chances'] = $currentPopulation[$i]['metric'] / $chancesSum;
 		}
 
+		for ($i = 0; $i < $population; $i++ ) {
+			if (substr_count($currentPopulation[$i]['dna'], "B") != 1 || 
+					substr_count($currentPopulation[$i]['dna'], "C") != 1 || 
+					substr_count($currentPopulation[$i]['dna'], "D") != 1 || 
+					substr_count($currentPopulation[$i]['dna'], "E") != 1) {
+					$currentPopulation[$i]['chances'] = 0;
+					$currentPopulation[$i]['floor'] = 1;
+					$currentPopulation[$i]['rate'] = 1979;
+			}
+		}
+
 		util::sort($currentPopulation, 'rate');
 		$ceilSum = 0;
 		for ($i = 0; $i < $population; $i++ ) {
@@ -238,30 +256,43 @@ if (!empty($_POST)) {
 		for ($j = 0; $j < $elitism; $j++) {
 			$initialPopulation[] = $currentPopulation[$j]['dna'];
 		}
+
+		// $moment = mt_rand(0, $population - $elitism);
+		$posicaoMutacao = getPositionMutation($mutation, $population - $elitism);
+
 		// Definindo o pai da população
 		for ($j = 0; $j < $population - $elitism; $j++) {
-			$rouletteMale = rand(0, 100) / 100;
+			$rouletteMale = mt_rand(0, 100) / 100;
 			
+			// var_dump($rouletteMale);
+			// echo "<pre>"; var_dump($currentPopulation); exit;
 			for ($i = $population - 1; $i >= 0; $i--) {
-				if ($currentPopulation[$i]['floor'] < $rouletteMale) {
+				if ($currentPopulation[$i]['floor'] < $rouletteMale && $currentPopulation[$i]['chances'] != 0) {
 					$dad = $currentPopulation[$i]['dna'];
 					break;
 				}
 			}
 			
 			// Definindo a mãe da população
-			$rouletteFemale = rand(0, 100) / 100;
+			$rouletteFemale = mt_rand(0, 100) / 100;
 			for ($i = $population - 1; $i >= 0; $i--) {
-				if ($currentPopulation[$i]['floor'] < $rouletteFemale) {
+				if ($currentPopulation[$i]['floor'] < $rouletteFemale && $currentPopulation[$i]['chances'] != 0) {
 					$mom = $currentPopulation[$i]['dna'];
 					break;
 				}
 			}
 			
 			$child = mate($mom, $dad); // criando um novo filho
+
+				// Mutação
+				if ($ratemutation < $qtdmutation) {
+					if (!empty ( $posicaoMutacao[$j] ) ) {
+						$child = mutation($child);
+						$ratemutation++;
+					}
+				}						
 			$initialPopulation[] = $child;
 		}
-		
 	}
 
 	echo "<div>A melhor solução encontrada foi <strong>{$currentPopulation[0]['dna']}</strong> com distância total de  <strong>".rate($currentPopulation[0]['dna'], $distances)."</strong> que levou <strong>$k</strong> generations.</div>\n";
@@ -288,7 +319,6 @@ function pickRandom() {
 	array_push($choices, "A"); // Adiciona no fim do array
 	$sequence = implode('',$choices);
 
-	//var_dump($sequence);
 	if (!empty($sem_repeticao[$sequence])) pickRandom(); 
 	else $sem_repeticao[$sequence] = '1';
 	
@@ -341,6 +371,15 @@ function mate($mommy, $daddy) {
 	return $baby;
 }
 
+function mutation($baby) {
+	$chosen = mt_rand(0, CITY_COUNT-2);
+	echo "Mutação: " . $baby;
+	$baby[$chosen] = number_to_string($chosen);
+	echo " - Mutado: " . $baby;
+	echo " - Elemento Mutado: " . $chosen . "<br>";
+	return $baby;
+}
+
 function string_to_number($char) {
 	if ($char == 'A')
 		return 1;
@@ -354,6 +393,36 @@ function string_to_number($char) {
 		return 5;
 	else
 		die("ERRO");
+}
+
+function number_to_string($number) {
+	if ($number == 0)
+		return 'A';
+	else if ($number == 1)
+		return 'B';
+	else if ($number == 2)
+		return 'C';
+	else if ($number == 3)
+		return 'D';
+	else if ($number == 4)
+		return 'E';
+	else
+		die("ERRO");
+}
+
+function getPositionMutation($mutation, $population) {
+	$position = array();
+	while($i<$population) {
+
+		$chosen = mt_rand(0, $population-1);
+		if (empty( $position[$chosen] )) {
+			$position[$chosen] = 1;			
+		} 
+		$i++;
+
+		if ( count($position) == $mutation) break;
+	}	
+	return $position;
 }
 
 class util {
