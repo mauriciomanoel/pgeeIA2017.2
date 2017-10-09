@@ -228,6 +228,7 @@ if (!empty($_POST)) {
 			$currentPopulation[$i]['chances'] = $currentPopulation[$i]['metric'] / $chancesSum;
 		}
 
+		// Redefinindo rates de população baixo clero
 		for ($i = 0; $i < $population; $i++ ) {
 			if (substr_count($currentPopulation[$i]['dna'], "B") != 1 || 
 					substr_count($currentPopulation[$i]['dna'], "C") != 1 || 
