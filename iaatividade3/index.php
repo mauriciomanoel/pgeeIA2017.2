@@ -151,7 +151,7 @@ form {
   </tr>
 </table>
 </form>
-<div><a href="https://www.ncbi.nlm.nih.gov/pubmed/18811247" target="_blank"> Elitism </a></div> </br>
+<div><a href="http://www.ri.cmu.edu/pub_files/pub2/baluja_shumeet_1995_1/baluja_shumeet_1995_1.pdf" target="_blank"> <strong>Elitism: </strong> A practical variant of the general process of constructing a new population is to allow the best organism(s) from the current generation to carry over to the next, unaltered. This strategy is known as elitist selection and guarantees that the solution quality obtained by the GA will not decrease from one generation to the next. </a></div> </br>
 <?php
 
 if (!empty($_POST)) {
