@@ -174,7 +174,7 @@ if (!empty($_POST)) {
 			else if (!empty($_POST[$j . '_' . $i]))
 				$distances[$i][$j] = $_POST[$j . '_' . $i];
 			else
-				$distances[$i][$j] = 32767;
+				$distances[$i][$j] = 1979;
 		}
 	}
 	
@@ -191,9 +191,8 @@ if (!empty($_POST)) {
 		$i++;
 	}
 	
-	//echo "<pre>"; var_dump($initialPopulation); exit;
 	for ($k = 1; $k <= $generations; $k++) {
-		echo "<div><strong>Generation $k</strong></div>\n";
+		echo "<div><strong>Geração $k</strong></div>\n";
 		# Classificando a População
 		echo "<pre>";
 		$i = 0;
@@ -232,7 +231,7 @@ if (!empty($_POST)) {
 		imprimirResultado($currentPopulation);
 
 		echo "</pre>\n";
-		if (converging($initialPopulation))
+		if (converging($initialPopulation)) // Critério de parada: Quando a população for igual.
 			break;
 
 		$initialPopulation = array();
