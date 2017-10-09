@@ -1,5 +1,7 @@
 <?php
-ini_set("error_reporting", E_ALL & ~E_NOTICE);
+	ini_set("error_reporting", E_ALL & ~E_NOTICE);
+	ini_set('memory_limit', '128M');
+	// ini_set('max_execution_time', 90); //
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -186,16 +188,24 @@ if (!empty($_POST)) {
 	}
 	
 	$sem_repeticao = array();
-	# Construindo uma população aleatoriamente
-	for($i = 0; $i < $population; $i++) {
-		pickRandom();
+	# Construindo uma população aleatoriamente sem repetição
+  $i = 0;
+	while($i<100) {
+		$sequence = pickRandom();
+		if ( empty($sem_repeticao[$sequence])) {
+				$sem_repeticao[$sequence] = 1;				
+		}
+		$i++;	
+		if (count($sem_repeticao) == $population) break;		
 	}
-	
-	# Construindo uma população sem repetição
-	$i = 0;
-	foreach($sem_repeticao as $key => $valor) {
-		$initialPopulation[$i] = $key;
-		$i++;
+
+	# Gerando População inicial 
+	for($i = 0; $i < $population; $i++) {
+		if (!empty( $sem_repeticao[$i] )) {
+				$initialPopulation[$i] = $sem_repeticao[$i];
+		} else {
+			$initialPopulation[$i] = pickRandom();
+		}
 	}
 	
 	for ($k = 1; $k <= $generations; $k++) {
@@ -283,7 +293,7 @@ if (!empty($_POST)) {
 				}
 			}
 			
-			$child = crossing($mom, $dad); // criando um novo filho
+			$child = crossing($mom, $dad); // Cruzamento: gerando um novo filho
 
 				// Mutação
 				if ($ratemutation < $qtdmutation) {
@@ -313,16 +323,19 @@ function converging($pop) {
 
 // Função para criar rodas aleatoriamente
 function pickRandom() {
-	global $sem_repeticao;
+	// global $sem_repeticao;
 	$choices = array('B', 'C', 'D', 'E');
+	srand((float)microtime()*1000000);
 	shuffle($choices); // Mistura os elementos no array http://php.net/manual/pt_BR/function.shuffle.php
 	array_unshift($choices, "A"); // Adiciona no inicio do array
 	array_push($choices, "A"); // Adiciona no fim do array
 	$sequence = implode('',$choices);
 
-	if (!empty($sem_repeticao[$sequence])) pickRandom(); 
-	else $sem_repeticao[$sequence] = '1';
-	
+// var_dump($sequence);
+	// if (!empty($sem_repeticao[$sequence])) pickRandom(); 
+	// else $sem_repeticao[$sequence] = '1';
+	// $sem_repeticao[$sequence] = '1';
+	// return true;
 	return $sequence; // transforma de array para string
 }
 
@@ -369,6 +382,7 @@ function crossing($mommy, $daddy) {
 				$baby .= substr($daddy, $i, 1);
 		}
 	}
+
 	return $baby;
 }
 
