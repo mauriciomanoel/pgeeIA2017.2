@@ -283,7 +283,7 @@ if (!empty($_POST)) {
 				}
 			}
 			
-			$child = mate($mom, $dad); // criando um novo filho
+			$child = crossing($mom, $dad); // criando um novo filho
 
 				// Mutação
 				if ($ratemutation < $qtdmutation) {
@@ -356,7 +356,7 @@ function leadingZero($value) {
 }
 
 // Fazendo o casamento entre a mãe e o pai
-function mate($mommy, $daddy) { 
+function crossing($mommy, $daddy) { 
 	$baby = "AAAAAA";
 	
 	while (substr_count($baby, 'A') != 2 || substr_count($baby, 'B') != 1 || substr_count($baby, 'C') != 1 || substr_count($baby, 'D') != 1 || substr_count($baby, 'E') != 1) {
