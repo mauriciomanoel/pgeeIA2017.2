@@ -1,5 +1,7 @@
 <?php
-	ini_set("error_reporting", E_ALL & ~E_NOTICE);		
+	ini_set("error_reporting", E_ALL & ~E_NOTICE);
+	ini_set('memory_limit', '-1');
+	define('CITY_COUNT', 6);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -152,9 +154,7 @@ form {
 <div><a href="http://www.ri.cmu.edu/pub_files/pub2/baluja_shumeet_1995_1/baluja_shumeet_1995_1.pdf" target="_blank"> <strong>Elitism: </strong> A practical variant of the general process of constructing a new population is to allow the best organism(s) from the current generation to carry over to the next, unaltered. This strategy is known as elitist selection and guarantees that the solution quality obtained by the GA will not decrease from one generation to the next. </a></div> </br>
 <?php
 
-if (!empty($_POST)) {
-	ini_set('memory_limit', '-1');
-	define('CITY_COUNT', 6);
+if (!empty($_POST)) {		
 	$population = $_POST['population'] + 0;
 	if ($population > 999) 
 		$population = 999;
@@ -332,18 +332,14 @@ function pickRandom() {
 	array_push($choices, "A"); // Adiciona no fim do array
 	$sequence = implode('',$choices);
 
-// var_dump($sequence);
-	// if (!empty($sem_repeticao[$sequence])) pickRandom(); 
-	// else $sem_repeticao[$sequence] = '1';
-	// $sem_repeticao[$sequence] = '1';
-	// return true;
+
 	return $sequence; // transforma de array para string
 }
 
 // Função para Calcular a distância com base no DNA
-function rate($dna, $distances) {
+function rate($chromosome, $distances) {
 	$mileage = 0;
-	$letters = str_split($dna);
+	$letters = str_split($chromosome);
 	for ($i = 0; $i < CITY_COUNT - 1; $i++) {
 		$mileage += $distances[string_to_number($letters[$i])][string_to_number($letters[$i+1])];
 	}
@@ -380,7 +376,7 @@ function crossing($mommy, $daddy) {
 
 // Fazendo a mutação de um filho
 function mutation($baby) {
-	$chosen = mt_rand(1, CITY_COUNT-2);
+	$chosen = mt_rand(1, CITY_COUNT-2); // ignorando a posição zero.
 	echo "Mutação: " . $baby;
 	$baby[$chosen] = number_to_string($chosen);
 	echo " - Mutado: " . $baby;
