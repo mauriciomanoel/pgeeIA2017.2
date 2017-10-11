@@ -149,7 +149,7 @@ form {
   </tr>
 </table>
 </form>
-<div><a href="https://www.ncbi.nlm.nih.gov/pubmed/18811247" target="_blank"> Elitism </a></div> </br>
+<div><a href="http://www.ri.cmu.edu/pub_files/pub2/baluja_shumeet_1995_1/baluja_shumeet_1995_1.pdf" target="_blank"> <strong>Elitism: </strong> A practical variant of the general process of constructing a new population is to allow the best organism(s) from the current generation to carry over to the next, unaltered. This strategy is known as elitist selection and guarantees that the solution quality obtained by the GA will not decrease from one generation to the next. </a></div> </br>
 <?php
 
 if (!empty($_POST)) {
@@ -187,16 +187,24 @@ if (!empty($_POST)) {
 	}
 	
 	$sem_repeticao = array();
-	# Construindo uma população aleatoriamente
-	for($i = 0; $i < $population; $i++) {
-		pickRandom();
+	# Construindo uma população aleatoriamente sem repetição
+  $i = 0;
+	while($i<100) {
+		$sequence = pickRandom();
+		if ( empty($sem_repeticao[$sequence])) {
+				$sem_repeticao[$sequence] = 1;				
+		}
+		$i++;	
+		if (count($sem_repeticao) == $population) break;		
 	}
-	
-	# Construindo uma população sem repetição
-	$i = 0;
-	foreach($sem_repeticao as $key => $valor) {
-		$initialPopulation[$i] = $key;
-		$i++;
+
+	# Gerando População inicial com repetição (população maior que 24)
+	for($i = 0; $i < $population; $i++) {
+		if (!empty( $sem_repeticao[$i] )) {
+				$initialPopulation[$i] = $sem_repeticao[$i];
+		} else {
+			$initialPopulation[$i] = pickRandom();
+		}
 	}
 	
 	for ($k = 1; $k <= $generations; $k++) {
@@ -284,7 +292,7 @@ if (!empty($_POST)) {
 				}
 			}
 			
-			$child = crossing($mom, $dad); // criando um novo filho
+			$child = crossing($mom, $dad); // Cruzamento: gerando um novo filho
 
 				// Mutação
 				if ($ratemutation < $qtdmutation) {
@@ -316,16 +324,19 @@ function converging($pop) {
 
 // Função para criar rodas aleatoriamente
 function pickRandom() {
-	global $sem_repeticao;
+	// global $sem_repeticao;
 	$choices = array('B', 'C', 'D', 'E');
+	srand((float)microtime()*1000000);
 	shuffle($choices); // Mistura os elementos no array http://php.net/manual/pt_BR/function.shuffle.php
 	array_unshift($choices, "A"); // Adiciona no inicio do array
 	array_push($choices, "A"); // Adiciona no fim do array
 	$sequence = implode('',$choices);
 
-	if (!empty($sem_repeticao[$sequence])) pickRandom(); 
-	else $sem_repeticao[$sequence] = '1';
-	
+// var_dump($sequence);
+	// if (!empty($sem_repeticao[$sequence])) pickRandom(); 
+	// else $sem_repeticao[$sequence] = '1';
+	// $sem_repeticao[$sequence] = '1';
+	// return true;
 	return $sequence; // transforma de array para string
 }
 
@@ -363,6 +374,7 @@ function crossing($mommy, $daddy) {
 				$baby .= substr($daddy, $i, 1);
 		}
 	}
+
 	return $baby;
 }
 
