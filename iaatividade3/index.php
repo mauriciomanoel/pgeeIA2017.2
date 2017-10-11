@@ -380,7 +380,7 @@ function crossing($mommy, $daddy) {
 
 // Fazendo a mutação de um filho
 function mutation($baby) {
-	$chosen = mt_rand(0, CITY_COUNT-2);
+	$chosen = mt_rand(1, CITY_COUNT-2);
 	echo "Mutação: " . $baby;
 	$baby[$chosen] = number_to_string($chosen);
 	echo " - Mutado: " . $baby;
