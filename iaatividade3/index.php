@@ -1,5 +1,5 @@
 <?php
-ini_set("error_reporting", E_ALL & ~E_NOTICE);
+	ini_set("error_reporting", E_ALL & ~E_NOTICE);		
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -153,6 +153,7 @@ form {
 <?php
 
 if (!empty($_POST)) {
+	ini_set('memory_limit', '-1');
 	define('CITY_COUNT', 6);
 	$population = $_POST['population'] + 0;
 	if ($population > 999) 
@@ -207,7 +208,7 @@ if (!empty($_POST)) {
 		$biggest = 0;
 		
 		foreach ($initialPopulation AS $entity) {
-			$currentPopulation[$i]['dna'] = $entity;
+			$currentPopulation[$i]['chromosome'] = $entity;
 			$currentPopulation[$i]['rate'] = rate($entity, $distances); // calculando a taxa
 			$distanceSum += $currentPopulation[$i]['rate']; // somatório da taxa
 			if ($currentPopulation[$i]['rate'] > $biggest)
@@ -230,10 +231,10 @@ if (!empty($_POST)) {
 
 		// Redefinindo rates de população baixo clero
 		for ($i = 0; $i < $population; $i++ ) {
-			if (substr_count($currentPopulation[$i]['dna'], "B") != 1 || 
-					substr_count($currentPopulation[$i]['dna'], "C") != 1 || 
-					substr_count($currentPopulation[$i]['dna'], "D") != 1 || 
-					substr_count($currentPopulation[$i]['dna'], "E") != 1) {
+			if (substr_count($currentPopulation[$i]['chromosome'], "B") != 1 || 
+					substr_count($currentPopulation[$i]['chromosome'], "C") != 1 || 
+					substr_count($currentPopulation[$i]['chromosome'], "D") != 1 || 
+					substr_count($currentPopulation[$i]['chromosome'], "E") != 1) {
 					$currentPopulation[$i]['chances'] = 0;
 					$currentPopulation[$i]['floor'] = 1;
 					$currentPopulation[$i]['rate'] = 1979;
@@ -255,7 +256,7 @@ if (!empty($_POST)) {
 
 		$initialPopulation = array();
 		for ($j = 0; $j < $elitism; $j++) {
-			$initialPopulation[] = $currentPopulation[$j]['dna'];
+			$initialPopulation[] = $currentPopulation[$j]['chromosome'];
 		}
 
 		// $moment = mt_rand(0, $population - $elitism);
@@ -269,7 +270,7 @@ if (!empty($_POST)) {
 			// echo "<pre>"; var_dump($currentPopulation); exit;
 			for ($i = $population - 1; $i >= 0; $i--) {
 				if ($currentPopulation[$i]['floor'] < $rouletteMale && $currentPopulation[$i]['chances'] != 0) {
-					$dad = $currentPopulation[$i]['dna'];
+					$dad = $currentPopulation[$i]['chromosome'];
 					break;
 				}
 			}
@@ -278,7 +279,7 @@ if (!empty($_POST)) {
 			$rouletteFemale = mt_rand(0, 100) / 100;
 			for ($i = $population - 1; $i >= 0; $i--) {
 				if ($currentPopulation[$i]['floor'] < $rouletteFemale && $currentPopulation[$i]['chances'] != 0) {
-					$mom = $currentPopulation[$i]['dna'];
+					$mom = $currentPopulation[$i]['chromosome'];
 					break;
 				}
 			}
@@ -296,13 +297,15 @@ if (!empty($_POST)) {
 		}
 	}
 
-	echo "<div>A melhor solução encontrada foi <strong>{$currentPopulation[0]['dna']}</strong> com distância total de  <strong>".rate($currentPopulation[0]['dna'], $distances)."</strong> que levou <strong>$k</strong> generations.</div>\n";
+	echo "<div>A melhor solução encontrada foi <strong>{$currentPopulation[0]['chromosome']}</strong> com distância total de  <strong>".rate($currentPopulation[0]['chromosome'], $distances)."</strong> que levou <strong>$k</strong> generations.</div>\n";
 }
 ?>
 </div>
 </body>
 </html>
 <?php
+
+// Função que retorna se todos os elementos do array são iguais
 function converging($pop) {
 	$items = count(array_unique($pop));
 	if ($items == 1)
@@ -341,21 +344,12 @@ function imprimirResultado($elements) {
 	echo "<table class='debug'>";
 	echo "<tr><th>ID&nbsp;</th><th>DNA</th><th>Distancia</th><th>Change</th></tr>\n";
 	foreach($elements as $element => $value) {
-		echo "<tr><td>" . sprintf("%03s",   $element)  . "</td><td>" . $value['dna'] . "</td><td>" . $value['rate'] . "</td><td>" . sprintf("%01.2f", $value['chances'] * 100) . "%</td></tr>\n";
+		echo "<tr><td>" . sprintf("%03s",   $element)  . "</td><td>" . $value['chromosome'] . "</td><td>" . $value['rate'] . "</td><td>" . sprintf("%01.2f", $value['chances'] * 100) . "%</td></tr>\n";
 	}
 	echo "</table>\n";
 }
 
-// Formatar número
-function leadingZero($value) {
-	if ($value < 10)
-		$value = '00' . $value;
-	else if ($value < 100)
-		$value = '0' . $value;
-	return $value;
-}
-
-// Fazendo o casamento entre a mãe e o pai
+// Fazendo o cruzamento entre a mãe e o pai
 function crossing($mommy, $daddy) { 
 	$baby = "AAAAAA";
 	
@@ -372,6 +366,7 @@ function crossing($mommy, $daddy) {
 	return $baby;
 }
 
+// Fazendo a mutação de um filho
 function mutation($baby) {
 	$chosen = mt_rand(0, CITY_COUNT-2);
 	echo "Mutação: " . $baby;
@@ -381,6 +376,7 @@ function mutation($baby) {
 	return $baby;
 }
 
+// Converter de string para número
 function string_to_number($char) {
 	if ($char == 'A')
 		return 1;
@@ -396,6 +392,7 @@ function string_to_number($char) {
 		die("ERRO");
 }
 
+// Converter de número para string
 function number_to_string($number) {
 	if ($number == 0)
 		return 'A';
@@ -410,7 +407,7 @@ function number_to_string($number) {
 	else
 		die("ERRO");
 }
-
+// Gerar aleatoriamente o endereço da população que será feita a mutação
 function getPositionMutation($mutation, $population) {
 	$position = array();
 	while($i<$population) {
