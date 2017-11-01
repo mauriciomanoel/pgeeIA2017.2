@@ -22,6 +22,7 @@ private Layer[] layers;
 		return inputActivation;
 	}
 
+	// Function of Training Network 
 	public void train(float[] input, float[] targetOutput, float learningRate, float momentum) {
 		
 		float[] calculatedOutput = run(input);

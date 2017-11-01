@@ -63,6 +63,7 @@ public class Layer {
 				dWeights[previousWeightIndex] = dw;
 			}
 			
+			
 			offset += input.length;
 		}
 		
