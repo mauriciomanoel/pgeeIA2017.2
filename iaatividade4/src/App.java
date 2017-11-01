@@ -1,4 +1,4 @@
-package com.mauricio;
+
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public class App {
 			 new float[] {0,1,0,0,0,0,0,0}// "1"
 		};
 		
-		BackpropNeuralNetwork backpropagationNeuralNetworks = new BackpropNeuralNetwork(1024, 25, 8);
+		NeuralNetwork backpropagationNeuralNetworks = new NeuralNetwork(1024, 25, 8);
 	
 		for (int iterations = 0; iterations < Constants.ITERATIONS; iterations++) {
 	

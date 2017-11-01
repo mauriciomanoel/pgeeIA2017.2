@@ -1,4 +1,4 @@
-package com.mauricio;
+
 
 public class Constants {
 

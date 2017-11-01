@@ -1,4 +1,4 @@
-package com.mauricio;
+
 
 import java.util.Arrays;
 import java.util.Random;
@@ -29,7 +29,7 @@ public class Layer {
 	public float[] run(float[] inputArray) {
 		
 		System.arraycopy(inputArray, 0, input, 0, inputArray.length);
-		input[input.length - 1] = 1; // bias
+		input[input.length - 1] = 1; 
 		int offset = 0;
 		
 		for (int i = 0; i < output.length; i++) {
