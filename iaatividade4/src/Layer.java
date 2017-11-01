@@ -22,7 +22,7 @@ public class Layer {
 
 	public void initWeights() {
 		for (int i = 0; i < weights.length; i++) {
-			weights[i] = (random.nextFloat() - 0.5f) * 4f;
+			weights[i] = (random.nextFloat() - 0.5f) * 2f; //[-1,1]
 		}
 	}
 
