@@ -38,7 +38,7 @@ public class Layer {
 				output[i] += weights[offset + j] * input[j]; // Update parameters of output with weights
 			}
 			
-			output[i] = ActivationFunction.sigmoid(output[i]);
+			output[i] = ActivationFunction.sigmoid(output[i]);			
 			offset += input.length; // increment the offset because input and output do neuron one, two, ...
 		}
 		
@@ -60,7 +60,7 @@ public class Layer {
 				int previousWeightIndex = offset + j;
 				// Calculate next error
 				nextError[j] = nextError[j] + weights[previousWeightIndex] * delta;
-				// Calculate changes with input, gradient and learing rate
+				// Calculate changes with input, gradient and learning rate
 				float dw = input[j] * delta * learningRate;
 				// increment weights with weights previous times moment plus 
 				weights[previousWeightIndex] += dWeights[previousWeightIndex] * momentum + dw;

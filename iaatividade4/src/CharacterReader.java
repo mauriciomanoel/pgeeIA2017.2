@@ -10,7 +10,7 @@ public class CharacterReader {
 
 	public static void readImage() throws IOException {
 
-		BufferedImage image = ImageIO.read(new File("C:\\projetos\\desktop\\pgeeIA2017.2\\iaatividade4\\fotos\\pessoa4_ajustado.jpg"));
+		BufferedImage image = ImageIO.read(new File("C:\\projetos\\desktop\\pgeeIA2017.2\\iaatividade4\\fotos\\pessoa10_ajustado.jpg"));
 		byte[][] pixels = new byte[image.getWidth()][];
 		System.out.print("new int[] {");
 		for (int x = 0; x < image.getWidth(); x++) {
