@@ -1,4 +1,4 @@
-package com.mauricio.backprop;
+
 
 import java.util.Arrays;
 import java.util.Random;
@@ -23,7 +23,7 @@ public class Layer {
 	// init of weights
 	public void initWeights() {
 		for (int i = 0; i < weights.length; i++) {
-			weights[i] = (random.nextFloat() - 0.5f) * 2f; // [-1,1]
+			weights[i] = (random.nextFloat() - 0.5f) * 4f; // [-2,2]
 		}
 	}
 

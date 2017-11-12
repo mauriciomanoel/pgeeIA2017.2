@@ -1,3 +1,7 @@
+// ** BIAS **
+// https://ujjwalkarn.me/2016/08/09/quick-intro-neural-networks/
+// https://mauricioszabo.wordpress.com/2013/01/16/redes-neurais-for-dummies/
+
 
 // https://www.youtube.com/watch?v=bEydFpCqCl4
 // https://www.youtube.com/watch?v=rVeGXVnUtKQ
@@ -24,11 +28,16 @@ public class App {
 			for (int i = 0; i < trainingResults.length; i++) {
 				neuralNetwork.train(trainingData[i], trainingResults[i], Constants.LEARNING_RATE, Constants.MOMENTUM);
 			}
-	
-//			for (int i = 0; i < trainingResults.length; i++) {
-//				float[] data = trainingData[i];
-//				float[] calculatedOutput = neuralNetwork.run(data);
-//			}
+			
+			if ((iterations + 1) % 100 == 0) {
+				System.out.println();
+				for (int i = 0; i < trainingResults.length; i++) {
+					float[] data = trainingData[i];
+					float[] calculatedOutput = neuralNetwork.run(data);
+					System.out.println(calculatedOutput[0]+" "+calculatedOutput[1]+" "+calculatedOutput[2]+" "+calculatedOutput[3]+" "+calculatedOutput[4]+" "+calculatedOutput[5]+" "+calculatedOutput[6]+" "+calculatedOutput[7]+" "+calculatedOutput[8]+" "+calculatedOutput[9]);
+				}
+			}
+
 		}		
 	
 		System.out.println("---------------------------");

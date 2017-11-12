@@ -1,4 +1,4 @@
-package com.mauricio.backprop;
+// https://ujjwalkarn.me/2016/08/09/quick-intro-neural-networks/
 
 public class App {
 
