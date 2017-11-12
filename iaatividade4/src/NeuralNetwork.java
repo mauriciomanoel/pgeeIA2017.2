@@ -36,5 +36,6 @@ private Layer[] layers;
 		for (int i = layers.length - 1; i >= 0; i--) {			
 			error = layers[i].train(error, learningRate, momentum); // new train with new error
 		}
+		System.out.println(error);
 	}
 }

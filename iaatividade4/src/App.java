@@ -9,10 +9,12 @@ public class App {
 
 	public static float[][] trainingData;
 	public static float[][] trainingResults;
+	public static String[] files;
 	
 	public static void main(String[] args) throws Exception {
 	
 		init();
+		
 		Scanner s = new Scanner(System.in);
 		
 		NeuralNetwork neuralNetwork = new NeuralNetwork(1024, 25, 10);
@@ -57,7 +59,13 @@ public class App {
 		    }
 		    
 			calculatedOutput = neuralNetwork.run(ruido);
-			System.out.println(Math.round(calculatedOutput[0])+" "+Math.round(calculatedOutput[1])+" "+Math.round(calculatedOutput[2])+" "+Math.round(calculatedOutput[3])+" "+Math.round(calculatedOutput[4])+" "+Math.round(calculatedOutput[5])+" "+Math.round(calculatedOutput[6])+" "+ Math.round(calculatedOutput[7])+" "+ Math.round(calculatedOutput[8])+" "+ Math.round(calculatedOutput[9]));	
+//			System.out.println(Math.round(calculatedOutput[0])+" "+Math.round(calculatedOutput[1])+" "+Math.round(calculatedOutput[2])+" "+Math.round(calculatedOutput[3])+" "+Math.round(calculatedOutput[4])+" "+Math.round(calculatedOutput[5])+" "+Math.round(calculatedOutput[6])+" "+ Math.round(calculatedOutput[7])+" "+ Math.round(calculatedOutput[8])+" "+ Math.round(calculatedOutput[9]));
+			int calculatedIndice = getIndice(calculatedOutput);
+			if (calculatedIndice != -1) {
+				System.out.println(files[calculatedIndice]);
+				CharacterReader.setImage(files[calculatedIndice], ruido);
+			}
+			//System.out.println(getIndice(calculatedOutput));
 		}
 		System.out.println("Programa finalizado.");
 	}
@@ -99,6 +107,61 @@ public class App {
 			 new float[] {0,0,0,0,0,0,0,0,1,0}, // pessoa9_ajustado.jpg
 			 new float[] {0,0,0,0,0,0,0,0,0,1}, // pessoa10_ajustado.jpg
 		};
+		
+		files = new String[] {
+			"pessoa1_ajustado.jpg",
+			"pessoa2_ajustado.jpg",
+			"pessoa3_ajustado.jpg",
+			"pessoa4_ajustado.jpg",
+			"pessoa5_ajustado.jpg",
+			"pessoa6_ajustado.jpg",
+			"pessoa7_ajustado.jpg",
+			"pessoa8_ajustado.jpg",
+			"pessoa9_ajustado.jpg",
+			"pessoa10_ajustado.jpg"
+		};
+	}
+	
+	public static int getIndice(float[] value) {
+		int retorno = -1;
+		String data = Math.round(value[0]) + "" + Math.round(value[1]) + "" + Math.round(value[2]) + "" + Math.round(value[3]) + "" + Math.round(value[4]) + "" + Math.round(value[5]) + "" + Math.round(value[6]) + "" + Math.round(value[7]) + "" + Math.round(value[8]) + "" + Math.round(value[9]);
+		System.out.println(data);
+		switch(data) {
+			case "1000000000":
+				retorno = 0;
+				break;
+			case "0100000000":
+				retorno = 1;
+				break;				
+			case "0010000000":
+				retorno = 2;
+				break;				
+			case "0001000000":
+				retorno = 3;
+				break;				
+			case "0000100000":
+				retorno = 4;
+				break;				
+			case "0000010000":
+				retorno = 5;
+				break;				
+			case "0000001000":
+				retorno = 6;
+				break;				
+			case "0000000100":
+				retorno = 7;
+				break;				
+			case "0000000010":
+				retorno = 8;
+				break;				
+			case "0000000001":
+				retorno = 9;
+				break;				
+			default:
+				System.out.println("Este não é um imagem válido!");	
+		}
+		
+		return retorno;
 	}
 }
 
