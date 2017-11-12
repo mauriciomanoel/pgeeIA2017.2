@@ -20,7 +20,7 @@ public class App {
 		};
 
 		// Init 
-		BackpropNeuralNetwork backpropagationNeuralNetworks = new BackpropNeuralNetwork(2, 3, 1);
+		NeuralNetwork backpropagationNeuralNetworks = new NeuralNetwork(2, 3, 1);
 		
 		// Treining network
 		for (int iterations = 0; iterations < Constants.ITERATIONS; iterations++) {

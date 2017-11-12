@@ -1,10 +1,10 @@
 
 
-public class BackpropNeuralNetwork {
+public class NeuralNetwork {
 
 	private Layer[] layers;
 	
-	public BackpropNeuralNetwork(int inputSize, int hiddenSize, int outputSize) {
+	public NeuralNetwork(int inputSize, int hiddenSize, int outputSize) {
 		layers = new Layer[2];
 		layers[0] = new Layer(inputSize, hiddenSize);
 		layers[1] = new Layer(hiddenSize, outputSize);
