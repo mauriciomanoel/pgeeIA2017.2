@@ -1,6 +1,6 @@
 // https://ujjwalkarn.me/2016/08/09/quick-intro-neural-networks/
 
-public class App {
+public class AppAND {
 
 	// Example BackPropagation of Logical Operators AND
 	public static void main(String[] args) throws Exception {
@@ -20,7 +20,7 @@ public class App {
 		};
 
 		// Init 
-		NeuralNetwork backpropagationNeuralNetworks = new NeuralNetwork(2, 2, 1);
+		NeuralNetwork backpropagationNeuralNetworks = new NeuralNetwork(2, 3, 1);
 		
 		// Treining network
 		for (int iterations = 0; iterations < Constants.ITERATIONS; iterations++) {
